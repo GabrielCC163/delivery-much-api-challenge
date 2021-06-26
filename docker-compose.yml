@@ -34,7 +34,8 @@ services:
       'POSTGRES_DB': '${DB_NAME}'
       'POSTGRES_USER': '${DB_USER}'
       'POSTGRES_PASSWORD': '${DB_PASS}'
-      'TZ': 'GMT'
+      'TZ': 'GMT-3'
+      'PGTZ': 'GMT-3'
 
 networks:
   app-network:

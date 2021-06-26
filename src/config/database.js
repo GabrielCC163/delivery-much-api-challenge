@@ -8,6 +8,10 @@ module.exports = {
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
   dialect: process.env.DB_DIALECT || 'postgres',
+  dialectOptions: {
+    useUTC: false,
+  },
+  timezone: '-03:00',
   storage: './tests/database.sqlite',
   operatorsAliases: false,
   logging: false,
