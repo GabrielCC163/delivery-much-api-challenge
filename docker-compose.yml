@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+  rabbitmq:
+    image: rabbitmq:3.8-management
+    networks:
+      - app-network
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  stock-service:
+    image: deliverymuch/backend-challenge:stock-service
+    networks:
+      - app-network
+    environment:
+      - RABBITMQ_URL=amqp://rabbitmq
+    depends_on:
+      - rabbitmq
+    links:
+      - rabbitmq
+    restart: on-failure
+
+  db:
+    env_file: './.env'
+    image: postgres:9.6
+    container_name: 'db'
+    volumes:
+      - './data/postgres:/var/lib/postgresql/data'
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      'POSTGRES_HOST': '${DB_HOST}'
+      'POSTGRES_DB': '${DB_NAME}'
+      'POSTGRES_USER': '${DB_USER}'
+      'POSTGRES_PASSWORD': '${DB_PASS}'
+      'TZ': 'GMT'
+
+networks:
+  app-network:
+    driver: bridge

@@ -1,0 +1,29 @@
+{
+  "name": "backend-challenge",
+  "version": "1.0.0",
+  "main": "src/server.js",
+  "repository": "",
+  "author": "Gabriel Brum <gabriel.brum@anestech.com.br>",
+  "license": "MIT",
+  "scripts": {
+    "format": "npx prettier -w .",
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js --ignore tests",
+    "pretest": "NODE_ENV=test sequelize db:migrate",
+    "test": "NODE_ENV=test jest",
+    "posttest": "NODE_ENV=test sequelize db:migrate:undo:all"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "pg": "^8.6.0",
+    "sequelize": "^6.6.2"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0",
+    "jest": "^27.0.5",
+    "nodemon": "^2.0.7",
+    "sequelize-cli": "^6.2.0",
+    "sqlite3": "^5.0.2",
+    "supertest": "^6.1.3"
+  }
+}
