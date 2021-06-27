@@ -1,9 +1,9 @@
 {
-  "name": "backend-challenge",
+  "name": "delivery-much-backend-challenge",
   "version": "1.0.0",
   "main": "src/server.js",
   "repository": "",
-  "author": "Gabriel Brum <gabriel.brum@anestech.com.br>",
+  "author": "Gabriel Brum <gbrum.rodrigues@gmail.com>",
   "license": "MIT",
   "scripts": {
     "format": "npx prettier -w .",
@@ -15,18 +15,20 @@
     "posttest": "NODE_ENV=test sequelize db:migrate:undo:all"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "csv-parse": "^4.16.0",
     "express": "^4.17.1",
     "fast-csv": "^4.3.6",
-    "pg": "^8.6.0",
-    "sequelize": "^6.6.2"
+    "mongoose": "^5.12.15",
+    "mongoose-auto-increment": "^5.0.1",
+    "require-dir": "^1.2.0",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.1.6"
   },
   "devDependencies": {
     "dotenv": "^10.0.0",
     "jest": "^27.0.5",
     "nodemon": "^2.0.7",
-    "sequelize-cli": "^6.2.0",
-    "sqlite3": "^5.0.2",
     "supertest": "^6.1.3"
   }
 }

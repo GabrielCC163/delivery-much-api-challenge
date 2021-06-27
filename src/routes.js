@@ -5,7 +5,7 @@ const OrderController = require('./app/controllers/OrderController');
 
 routes.get('/products/:name', ProductController.show);
 
-// routes.post('/orders/', OrderController.store);
+routes.post('/orders/', OrderController.store);
 // routes.get('/orders/', OrderController.list);
 // routes.get('/orders/:id', OrderController.show);
 

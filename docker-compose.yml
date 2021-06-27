@@ -20,23 +20,45 @@ services:
       - rabbitmq
     restart: on-failure
 
-  db:
-    env_file: './.env'
-    image: postgres:9.6
-    container_name: 'db'
-    volumes:
-      - './data/postgres:/var/lib/postgresql/data'
+  api:
+    container_name: api
+    build: .
     restart: always
+    env_file:
+      - .env
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - db
+    links:
+      - db
     ports:
-      - 5432:5432
+      - ${APP_PORT}:${APP_PORT}
+    command: yarn dev
+    networks:
+      - app-network
+
+  db:
+    image: mongo:latest
+    container_name: db
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - '${DB_PORT}:27017'
+    volumes:
+      - dbdata-volume:/data/db
     environment:
-      'POSTGRES_HOST': '${DB_HOST}'
-      'POSTGRES_DB': '${DB_NAME}'
-      'POSTGRES_USER': '${DB_USER}'
-      'POSTGRES_PASSWORD': '${DB_PASS}'
-      'TZ': 'GMT-3'
-      'PGTZ': 'GMT-3'
+      MONGO_INITDB_USERNAME: ${DB_USERNAME}
+      MONGO_INITDB_PASSWORD: ${DB_PASSWORD}
+      MONGO_INITDB_DATABASE: ${DB_DATABASE}
+    networks:
+      - app-network
 
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  dbdata-volume:

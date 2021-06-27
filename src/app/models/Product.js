@@ -1,9 +1,19 @@
-module.exports = (sequelize, DataTypes) => {
-  const Product = sequelize.define('Product', {
-    name: DataTypes.STRING,
-    price: DataTypes.DECIMAL(10, 2),
-    quantity: DataTypes.INTEGER,
-  });
+const mongoose = require('mongoose');
 
-  return Product;
-};
+const ProductSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  price: {
+    type: Number,
+  },
+  quantity: {
+    type: Number,
+    required: true,
+    defaultValue: 0,
+  },
+});
+
+mongoose.model('Product', ProductSchema);

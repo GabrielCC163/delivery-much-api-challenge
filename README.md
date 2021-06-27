@@ -8,8 +8,8 @@ docker-compose up
 
 ## Populate the database
 
-<i>Before you run the command below, make sure the database is running</i>
+<i>Before you run the command below, make sure the API and the Database are running</i>
 
 ```
-yarn populate
+docker-compose run --rm api yarn populate
 ```

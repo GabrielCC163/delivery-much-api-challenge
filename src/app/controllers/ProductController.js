@@ -1,4 +1,6 @@
-const { Product } = require('../models');
+const mongoose = require('mongoose');
+
+const Product = mongoose.model('Product');
 
 module.exports = {
   async show(req, res) {
@@ -7,12 +9,12 @@ module.exports = {
         params: { name },
       } = req;
 
-      const product = await Product.findOne({
-        attributes: ['name', 'price', 'quantity'],
-        where: {
+      const product = await Product.findOne(
+        {
           name,
         },
-      });
+        { _id: 0 },
+      );
 
       if (!product) {
         return res
@@ -20,12 +22,7 @@ module.exports = {
           .json({ message: `product not found with name ${name}` });
       }
 
-      return res
-        .status(200)
-        .json({
-          ...JSON.parse(JSON.stringify(product)),
-          price: parseFloat(product.price),
-        });
+      return res.status(200).json(product);
     } catch (error) {
       console.error(error);
     }
