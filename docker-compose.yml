@@ -31,8 +31,11 @@ services:
       - /usr/src/app/node_modules
     depends_on:
       - db
+      - stock-service
+      - rabbitmq
     links:
       - db
+      - rabbitmq
     ports:
       - ${APP_PORT}:${APP_PORT}
     command: yarn dev

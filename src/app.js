@@ -4,6 +4,9 @@ const mongoose = require('mongoose');
 const autoIncrement = require('mongoose-auto-increment');
 require('dotenv').config();
 
+const { connect } = require('../worker');
+connect();
+
 const requireDir = require('require-dir');
 const errorHandler = require('./app/controllers/ErrorController');
 
@@ -57,12 +60,6 @@ mongoose.connection.on('error', (err) => {
 autoIncrement.initialize(mongoose.connection);
 
 requireDir('./app/models');
-
-app.get('/api', (_, response) => {
-  response.send({
-    message: 'Bem-vindo à API',
-  });
-});
 
 const routes = require('./routes');
 app.use(routes);
