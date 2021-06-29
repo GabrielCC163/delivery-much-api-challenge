@@ -173,7 +173,6 @@ describe('GET /orders/:id', () => {
 
     expect(response.status).toBe(200);
 
-    console.log(response.body);
     expect(response.body.id).toBe(order.id);
     expect(response.body.products).toHaveLength(2);
     expect(response.body.total).toBe(24.63);
