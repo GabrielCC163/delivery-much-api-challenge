@@ -5,7 +5,25 @@ const autoIncrement = require('mongoose-auto-increment');
 require('dotenv').config();
 
 const { connect } = require('../worker');
-connect();
+
+let database;
+let hostname;
+
+console.log(
+  `Application started with NODE_ENV ${process.env.NODE_ENV}`,
+);
+
+if (process.env.NODE_ENV === 'test') {
+  database = process.env.DB_DATABASE_TEST;
+  hostname = process.env.DB_HOSTNAME;
+} else if (process.env.NODE_ENV === 'development') {
+  database = process.env.DB_DATABASE;
+  hostname = process.env.DB_HOSTNAME_DEV;
+} else {
+  database = process.env.DB_DATABASE;
+  hostname = process.env.DB_HOSTNAME;
+  connect();
+}
 
 const errorHandler = require('./app/controllers/ErrorController');
 
@@ -38,18 +56,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 //iniciando o DB
-const { DB_DATABASE, DB_HOSTNAME, DB_PORT } = process.env;
+const { DB_HOSTNAME, DB_PORT } = process.env;
 
-mongoose.connect(
-  `mongodb://${DB_HOSTNAME}:${DB_PORT}/${DB_DATABASE}`,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  },
-);
+mongoose.connect(`mongodb://${hostname}:${DB_PORT}/${database}`, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 mongoose.connection.once('open', async () => {
-  console.log('Connected to database');
+  console.log(`Connected to database ${database}`);
 });
 
 mongoose.connection.on('error', (err) => {
@@ -69,4 +84,4 @@ app.use(function (req, res, next) {
 
 app.use(errorHandler);
 
-module.exports = app;
+module.exports = { app, mongoose };

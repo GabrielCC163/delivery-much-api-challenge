@@ -17,7 +17,7 @@ module.exports = {
       if (!product) {
         return res
           .status(404)
-          .json({ message: `product not found with name ${name}` });
+          .json({ message: `Product not found with name ${name}` });
       }
 
       return res.status(200).json(product);

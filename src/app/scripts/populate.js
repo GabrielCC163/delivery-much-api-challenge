@@ -7,10 +7,16 @@ var parse = require('csv-parse/lib/sync');
 
 const PRODUCTS_COLLECTION = 'products';
 
-const { DB_HOSTNAME, DB_DATABASE, DB_PORT } = process.env;
+let database;
+if (process.env.NODE_ENV === 'test') {
+  database = process.env.DB_DATABASE_TEST;
+} else {
+  database = process.env.DB_DATABASE;
+}
+const { DB_HOSTNAME, DB_PORT } = process.env;
 
 mongoose.connect(
-  `mongodb://${DB_HOSTNAME}:${DB_PORT}/${DB_DATABASE}`,
+  `mongodb://${DB_HOSTNAME}:${DB_PORT}/${database}`,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
