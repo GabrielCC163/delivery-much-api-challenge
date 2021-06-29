@@ -38,6 +38,12 @@ module.exports = {
           });
         }
 
+        if (productFound.quantity < product.quantity) {
+          return res.status(400).json({
+            message: `The product ${productFound.name} does not have the requested quantity`,
+          });
+        }
+
         product.price = productFound.price;
       }
 
