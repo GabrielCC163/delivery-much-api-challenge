@@ -7,7 +7,6 @@ require('dotenv').config();
 const { connect } = require('../worker');
 connect();
 
-const requireDir = require('require-dir');
 const errorHandler = require('./app/controllers/ErrorController');
 
 const swaggerJsDoc = require('swagger-jsdoc');
@@ -58,8 +57,6 @@ mongoose.connection.on('error', (err) => {
 });
 
 autoIncrement.initialize(mongoose.connection);
-
-requireDir('./app/models');
 
 const routes = require('./routes');
 app.use(routes);

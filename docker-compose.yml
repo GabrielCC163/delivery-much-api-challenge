@@ -53,8 +53,6 @@ services:
     volumes:
       - dbdata-volume:/data/db
     environment:
-      MONGO_INITDB_USERNAME: ${DB_USERNAME}
-      MONGO_INITDB_PASSWORD: ${DB_PASSWORD}
       MONGO_INITDB_DATABASE: ${DB_DATABASE}
     networks:
       - app-network

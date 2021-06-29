@@ -1,6 +1,4 @@
-const mongoose = require('mongoose');
-
-const Product = mongoose.model('Product');
+const Product = require('../models/Product');
 
 module.exports = {
   async show(req, res) {
@@ -31,14 +29,23 @@ module.exports = {
 
   async updateQuantity(operation, name) {
     try {
-      await Product.updateOne(
-        { name },
-        {
-          $inc: {
-            quantity: operation === 'increment' ? 1 : -1,
+      const op = operation === 'increment' ? 1 : -1;
+      let query = { name };
+
+      if (op === -1) {
+        query = {
+          ...query,
+          quantity: {
+            $gt: 0,
           },
+        };
+      }
+
+      const res = await Product.updateOne(query, {
+        $inc: {
+          quantity: op,
         },
-      );
+      });
     } catch (error) {
       console.log(error);
     }

@@ -9,7 +9,7 @@ routes.post('/orders/', OrderController.store);
 routes.get('/orders/', OrderController.index);
 routes.get('/orders/:id', OrderController.show);
 
-routes.get('/', (req, res) => {
+routes.get('/', (_, res) => {
   return res.status(200).json({
     message: 'Welcome, check the documentation at /api-docs',
   });

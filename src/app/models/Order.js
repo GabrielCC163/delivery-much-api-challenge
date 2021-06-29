@@ -18,4 +18,4 @@ OrderSchema.plugin(autoIncrement.plugin, {
   startAt: 1,
 });
 
-mongoose.model('Order', OrderSchema);
+module.exports = mongoose.model('Order', OrderSchema);

@@ -1,7 +1,5 @@
-const mongoose = require('mongoose');
-
-const Order = mongoose.model('Order');
-const Product = mongoose.model('Product');
+const Order = require('../models/Order');
+const Product = require('../models/Product');
 
 module.exports = {
   async store(req, res) {

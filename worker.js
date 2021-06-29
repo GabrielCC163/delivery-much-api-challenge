@@ -13,10 +13,32 @@ module.exports = {
         await channel.prefetch(1);
         await channel.consume(
           '',
-          async function (msg) {
-            const name = msg.content.toString();
-            console.log(name);
+          async (msg) => {
+            const name = msg.content.toString().replaceAll('"', '');
+            console.log(`Increment ${name}`);
             await ProductController.updateQuantity('increment', name);
+          },
+          {
+            noAck: true,
+            consumerTag: 'info_consumer',
+          },
+        );
+
+        const channelDecrement = await conn.createChannel();
+        await channelDecrement.assertExchange('stock', 'direct');
+        await channelDecrement.assertQueue(
+          '',
+          'stock',
+          'decremented',
+        );
+        await channelDecrement.bindQueue('', 'stock', 'decremented');
+        await channelDecrement.prefetch(1);
+        await channelDecrement.consume(
+          '',
+          async (msg) => {
+            const name = msg.content.toString().replaceAll('"', '');
+            console.log(`Decrement ${name}`);
+            await ProductController.updateQuantity('decrement', name);
           },
           {
             noAck: true,
