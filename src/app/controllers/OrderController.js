@@ -22,7 +22,7 @@ module.exports = {
         ) {
           return res.status(400).json({
             message:
-              'Every product must have name and quantity defined',
+              'Each product must have name and quantity defined',
           });
         }
       }
@@ -45,6 +45,15 @@ module.exports = {
         }
 
         product.price = productFound.price;
+
+        await Product.updateOne(
+          { name: product.name },
+          {
+            $inc: {
+              quantity: -product.quantity,
+            },
+          },
+        );
       }
 
       const total = products.reduce((prev, prod) => {
